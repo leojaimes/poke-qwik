@@ -1,16 +1,18 @@
 import { component$,   } from "@builder.io/qwik";
-import { PokeImageUrl } from "~/utils/get-poke-image";
+import { PokeImageUrl, PokeType } from "~/utils/get-poke-image";
 
-export const PokemonImage = component$(( { value } : { value: number }) => {
-
-
+interface Props {
+    id: number;
+    size?: number;
+}
+export const PokemonImage = component$(( { id, size = 100 } : Props ) => {
   return (
     <>
       <img
-        src={PokeImageUrl(value)}
+        src={PokeImageUrl({id, pokeType: PokeType.shiny})}
         alt="mew"
-        height={100}
-        width={100}
+        height={size}
+        width={size}
         style={{ width: "100px", height: "100px" }}
       />
     
@@ -18,27 +20,3 @@ export const PokemonImage = component$(( { value } : { value: number }) => {
   );
 });
 
-const NavigationImage  = component$(()=> {
-    return (
-        <> 
-        <div class="mt-2">
-        <button
-          onClick$={() => {
-            changePokemonId(-1);
-          }}
-          class="btn btn-primary mr-2 "
-        >
-          Previous
-        </button>
-        <button
-          onClick$={() => {
-            changePokemonId(-1)
-          }}
-          class="btn btn-primary"
-        >
-          Next
-        </button>
-      </div>
-      </>
-    )
-})
