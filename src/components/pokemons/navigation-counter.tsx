@@ -1,7 +1,13 @@
-import type { QRL} from "@builder.io/qwik";
+import type { JSXChildren, QRL} from "@builder.io/qwik";
 import { component$ } from "@builder.io/qwik";
 
-export const NavigationCounter  = component$(({ onChange }: { onChange: QRL<(value: number) => void>})=> {
+
+interface Props {
+   onChange: QRL<(value: number) => void> ;
+   children?: JSXChildren 
+}
+
+export const NavigationCounter  = component$(({ onChange, children }: Props   )=> {
     return (
         <> 
         <div class="mt-2">
@@ -21,6 +27,9 @@ export const NavigationCounter  = component$(({ onChange }: { onChange: QRL<(val
         >
           Next
         </button>
+
+         { children }
+
       </div>
       </>
     )
