@@ -1,8 +1,8 @@
 import { component$ } from '@builder.io/qwik';
-import { QwikLogo } from '../icons/qwik';
-import styles from './header.module.css';
+import { QwikLogo } from '../../icons/qwik';
+import styles from './navbar.module.css';
 
-export default component$(() => {
+export const Navbar = component$(() => {
   return (
     <header class={styles.header}>
       <div class={['container', styles.wrapper]}>
@@ -12,16 +12,7 @@ export default component$(() => {
           </a>
         </div>
         <ul>
-          <li>
-            <a href="https://qwik.builder.io/docs/components/overview/" target="_blank">
-              Docs
-            </a>
-          </li>
-          <li>
-            <a href="https://qwik.builder.io/examples/introduction/hello-world/" target="_blank">
-              Examples
-            </a>
-          </li>
+         
           <li>
             <a href="https://qwik.builder.io/tutorial/welcome/overview/" target="_blank">
               Tutorials

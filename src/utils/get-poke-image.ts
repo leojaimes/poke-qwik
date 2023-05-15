@@ -1,0 +1,1 @@
+export const  PokeImageUrl = (number: number )=>(`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${number}.png`)
