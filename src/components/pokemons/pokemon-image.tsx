@@ -2,7 +2,7 @@ import { component$, useSignal, useTask$, $ } from '@builder.io/qwik';
 import { PokeImageUrl, PokeType } from "~/utils/get-poke-image";
 
 interface Props {
-  id: number;
+  id: number | string;
   size?: number;
   pokeType?: PokeType;
   show?: boolean;
@@ -33,7 +33,7 @@ export const PokemonImage = component$(
           onLoad$={() => {
             setTimeout(() => {
               imageLoaded.value = true
-            }, 2000)
+            }, 200)
 
           }}
           class={[{
