@@ -3,7 +3,8 @@ import { component$, useComputed$, useSignal } from '@builder.io/qwik';
 import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { getPokemoms } from '~/services/pokemonApi';
 import { getFinalNumberFromUrl } from '../../../utils/get-number-from-url';
-import { PokeImageUrl } from '~/utils/get-poke-image';
+import { PokeImageUrl, PokeType } from '~/utils/get-poke-image';
+import { PokemonImage } from '../../../components/pokemons/pokemon-image';
 
 const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }) => {
     const offset = Number(query.get('offset') || '0')
@@ -40,15 +41,13 @@ export default component$(() => {
             </div>
             <div class="grid grid-cols-6 mt-5">
                 {
-                    res.results.map(({ name, imageUrl }, index) => (
+                    res.results.map(({ name, imageUrl, id }, index) => (
                         <>
                             <div key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
+                                <PokemonImage id={id!} pokeType={PokeType.shiny} show size={100} />
                                 <span class="capitalize">{name}</span>
+                            </div>
 
-                            </div>
-                            <div key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
-                                <img src={imageUrl} />
-                            </div>
                         </>
                     ))
                 }

@@ -1,4 +1,4 @@
-import { component$, useSignal, useTask$, $ } from '@builder.io/qwik';
+import { component$, useSignal, useTask$, $, useComputed$ } from '@builder.io/qwik';
 import { PokeImageUrl, PokeType } from "~/utils/get-poke-image";
 
 interface Props {
@@ -17,6 +17,10 @@ export const PokemonImage = component$(
 
     })
 
+    const imageUrl = useComputed$(() => {
+      return PokeImageUrl({ id, pokeType: pokeType })
+    })
+
     return (
       <div
         class="flex items-center justify-center"
@@ -25,7 +29,7 @@ export const PokemonImage = component$(
         {!imageLoaded && <span>Loading...</span>}
 
         <img
-          src={PokeImageUrl({ id, pokeType: pokeType })}
+          src={imageUrl.value}
           alt="mew"
           height={size}
           width={size}

@@ -9,4 +9,5 @@ export interface ShortPokemonData {
     name: string;
     url: string;
     imageUrl?: string;
+    id?: number | string;
 }

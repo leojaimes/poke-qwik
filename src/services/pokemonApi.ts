@@ -19,7 +19,7 @@ interface PokeParams {
 export const getPokemoms = async (pokeParams: PokeParams) => {
     const response = await axios.get<PokemonResults>(`${baseUrl}/pokemon`, { params: pokeParams })
     response.data.results = response.data.results.map((poke) => {
-        return { ...poke, imageUrl: PokeImageUrl({ id: getFinalNumberFromUrl(poke.url) }) }
+        return { ...poke, id: getFinalNumberFromUrl(poke.url), imageUrl: PokeImageUrl({ id: getFinalNumberFromUrl(poke.url) }) }
     })
     return response.data
 }
