@@ -32,7 +32,7 @@ export default component$(() => {
             <div class="flex flex-col ">
                 <span class="my-5 text-5xl">Status</span>
                 <span class="my-5 text-5xl">Current offset: {currentoffset}</span>
-                <span class="my-5 text-5xl">{location.isNavigating ? 'Loading...' : ''}</span>
+                {/* <span class="my-5 text-5xl">{location.isNavigating ? 'Loading...' : ''}</span> */}
             </div>
             <div class="mt-10">
                 <Link class="btn btn-primary mr-2 cursor-pointer" href={`/pokemons/list-ssr/?offset=${offset - 1 >= 0 ? offset - 10 : 0}`}> Previous </Link>
@@ -40,14 +40,14 @@ export default component$(() => {
             </div>
             <div class="grid grid-cols-6 mt-5">
                 {
-                    res.results.map(({ name, url }, index) => (
+                    res.results.map(({ name, imageUrl }, index) => (
                         <>
                             <div key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
                                 <span class="capitalize">{name}</span>
 
                             </div>
                             <div key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
-                                <img src={PokeImageUrl({ id: getFinalNumberFromUrl(url) })} />
+                                <img src={imageUrl} />
                             </div>
                         </>
                     ))
