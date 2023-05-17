@@ -5,6 +5,7 @@ import { getPokemoms } from '~/services/pokemonApi';
 import { getFinalNumberFromUrl } from '../../../utils/get-number-from-url';
 import { PokeImageUrl, PokeType } from '~/utils/get-poke-image';
 import { PokemonImage } from '../../../components/pokemons/pokemon-image';
+import { Modal } from '~/components/shared';
 
 const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }) => {
     const offset = Number(query.get('offset') || '0')
@@ -52,6 +53,13 @@ export default component$(() => {
                     ))
                 }
             </div>
+            <Modal >
+                <div q:slot='title'>Pokemon Name</div>
+                <div class="flex flex-col justify-center items-center" q:slot='content'>
+                    <PokemonImage id={1} show />
+                    <span>Asking ChatGPT</span>
+                </div>
+            </Modal>
         </>
     )
 });
