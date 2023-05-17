@@ -4,33 +4,19 @@ import { NavigationCounter } from '~/components/pokemons/navigation-counter';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { useNavigation } from '~/components/pokemons/useNavigation';
 import { PokemonGameContext } from '~/context';
+import { usePokemonGame } from '~/hooks/pokemon/usePokemonGame';
 import { PokeType } from '~/utils/get-poke-image';
 
 
 export default component$(() => {
-  // const isPokemonVisible = useSignal<boolean>(false);
-  // const pokeType = useSignal<PokeType>(PokeType.default);
-  // const { pokemonId, changePokemonId } = useNavigation()
-
-  const pokeGameContext = useContext(PokemonGameContext)
-
-  const nav = useNavigate()
-
-  const toogleTurn = $(() => {
-    pokeGameContext.pokeType === PokeType.default ? pokeGameContext.pokeType = PokeType.backShiny : pokeGameContext.pokeType = PokeType.default
-  })
-
-  const goToPokemon = $(async () => {
-    await nav(`/pokemon/${pokeGameContext.pokemonId}`)
-  })
-
+  const { pokeGameContext, onChange, goToPokemon, toogleTurn } = usePokemonGame()
 
   return (
     <>
       <div class="cursor-pointer" onClick$={goToPokemon}>
         <PokemonImage id={pokeGameContext.pokemonId} pokeType={pokeGameContext.pokeType} show={pokeGameContext.isPokemonVisible} />
       </div>
-      <NavigationCounter onChange={$((number: number) => { pokeGameContext.pokemonId += number; console.log(` fun:::: ${pokeGameContext.pokemonId} `) })} />
+      <NavigationCounter onChange={onChange} />
       <button
         id="turnButton"
         onClick$={toogleTurn}
