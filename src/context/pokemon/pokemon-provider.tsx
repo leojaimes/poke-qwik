@@ -20,10 +20,20 @@ export const PokemonProvider = component$(() => {
     useContextProvider(PokemonListContext, pokemonListStore)
     useVisibleTask$(() => {
         console.log('visible task 1')
+        if (localStorage.getItem('pokemonGame')) {
+            console.log(localStorage.getItem('pokemonGame'))
+            const { isPokemonVisible = true, pokeType = PokeType.default, pokemonId = 10 }
+                = JSON.parse(localStorage.getItem('pokemonGame')!) as PokemonGameState
+            pokemonGame.isPokemonVisible = isPokemonVisible;
+            pokemonGame.pokeType = pokeType;
+            pokemonGame.pokemonId = pokemonId;
+        }
     })
 
-    useVisibleTask$(() => {
-        console.log('visible task 2')
+    useVisibleTask$(({ track }) => {
+        track(() => [pokemonGame.isPokemonVisible, pokemonGame.pokemonId, pokemonGame.pokeType])
+        console.log('visible task 2 ' + pokemonGame.pokeType)
+        localStorage.setItem('pokemonGame', JSON.stringify({ ...pokemonGame }))
     })
 
     return <Slot />
