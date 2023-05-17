@@ -21,6 +21,11 @@ export const Navbar = component$(() => {
           <li>
             <Link href='/pokemons/list-client/'>list - Client </Link>
           </li>
+
+          <li>
+            <Link href='/counter'>Counter </Link>
+          </li>
+
         </ul>
       </div>
     </header>
