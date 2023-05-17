@@ -9,12 +9,12 @@ import { PokeType } from '~/utils/get-poke-image';
 
 
 export default component$(() => {
-  const { pokeGameContext, onChange, goToPokemon, toogleTurn } = usePokemonGame()
+  const { pokeType, pokemonId, isPokemonVisible, onChange, goToPokemon, toogleTurn, toogleVisible } = usePokemonGame()
 
   return (
     <>
       <div class="cursor-pointer" onClick$={goToPokemon}>
-        <PokemonImage id={pokeGameContext.pokemonId} pokeType={pokeGameContext.pokeType} show={pokeGameContext.isPokemonVisible} />
+        <PokemonImage id={pokemonId.value} pokeType={pokeType.value} show={isPokemonVisible.value} />
       </div>
       <NavigationCounter onChange={onChange} />
       <button
@@ -27,7 +27,7 @@ export default component$(() => {
 
       <button
         id="turnButton"
-        onClick$={() => { pokeGameContext.isPokemonVisible = !pokeGameContext.isPokemonVisible }}
+        onClick$={toogleVisible}
         class="btn btn-primary mt-2"
       >
         isPokemonVisible
