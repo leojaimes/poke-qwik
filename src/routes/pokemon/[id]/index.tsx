@@ -3,6 +3,7 @@ import { routeLoader$ } from '@builder.io/qwik-city';
 import { RedirectMessage } from '@builder.io/qwik-city/middleware/request-handler';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { PokemonGameContext } from '~/context/pokemon/pokemon-game.context';
+import { usePokemonGame } from '~/hooks/pokemon/usePokemonGame';
 import { Pokemon } from '~/interfaces/pokemon';
 import { getPokemoById } from '~/services/pokemonApi';
 
@@ -34,7 +35,8 @@ export default component$(() => {
     //const loc = useLocation();
     //console.log({ loc: loc.params.id })
     const { value: { pokemon, id } = {} } = usePokemonId();
-    const pokeGameContext = useContext(PokemonGameContext)
+    //const pokeGameContext = useContext(PokemonGameContext)
+    const { pokemonId, pokeType, isPokemonVisible, toogleTurn, toogleVisible } = usePokemonGame()
 
     if (!id || !pokemon) {
         return (<h1>Not Found</h1>)
@@ -45,7 +47,24 @@ export default component$(() => {
             <span class="text-5xl capitalize">
                 {pokemon?.name}
             </span>
-            <PokemonImage id={id} pokeType={pokeGameContext.pokeType} show={pokeGameContext.isPokemonVisible} />
+            <PokemonImage id={id} pokeType={pokeType.value} show={isPokemonVisible.value} />
+
+            <button
+                id="turnButton"
+                onClick$={toogleTurn}
+                class="btn btn-primary mt-2"
+            >
+                Turn
+            </button>
+
+            <button
+                id="turnButton"
+                onClick$={toogleVisible}
+                class="btn btn-primary mt-2"
+            >
+                isPokemonVisible
+            </button>
+
         </>
     )
 });
