@@ -1,10 +1,11 @@
-import { component$, useComputed$, useSignal, useStore, $, useVisibleTask$, useTask$, useOnDocument } from '@builder.io/qwik';
+import { component$, useComputed$, useSignal, useStore, $, useVisibleTask$, useTask$, useOnDocument, useContext } from '@builder.io/qwik';
 import { DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { ShortPokemonData } from '~/interfaces/pokemons';
 import { getPokemoms } from '~/services/pokemonApi';
 import { PokeType } from '~/utils/get-poke-image';
 import { usePokemonPageState } from './usePokePageState';
+import { PokemonListContext, PokemonListPageState } from '~/context';
 
 const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }) => {
     const offset = Number(query.get('offset') || '0')
@@ -21,37 +22,34 @@ const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }
         offset: offset,
     }
 })
-interface PokemonPageState {
-    pokemons: ShortPokemonData[];
-    offset: number;
-    isLoading: boolean
-}
+
 export default component$(() => {
     const { value: { offset: initialOffset, res: { results: initialPokemons } } } = usePokemonList()
-    const initialPokePageState: PokemonPageState = {
+    const initialPokePageState: PokemonListPageState = {
         offset: initialOffset,
         pokemons: initialPokemons,
         isLoading: false,
     }
-    const pokemonsPageState = useStore(initialPokePageState)
+    const pokemonsPageState = useContext(PokemonListContext, initialPokePageState)
     //const { offset, pokemons, changeOffset } = usePokemonPageState(initialPokePageState)
 
 
     // useVisibleTask$(async ({ cleanup, track }) => {
-    //     console.log('hola mundo')
+    //     console.log('useVisibleTask')
+
     //     track(() => pokemonsPageState.offset)
 
     //     const res = await getPokemoms({
-    //         limit: 10,
+    //         limit: 30,
     //         offset: pokemonsPageState.offset
     //     })
-
-    //     pokemonsPageState.pokemons = res.results
+    //     pokemonsPageState.isLoading = false
+    //     pokemonsPageState.pokemons = [...pokemonsPageState.pokemons, ...res.results]
 
     // })
 
     useTask$(async ({ cleanup, track }) => {
-        console.log('hola mundo')
+        console.log('useTask')
         track(() => pokemonsPageState.offset)
 
         const res = await getPokemoms({

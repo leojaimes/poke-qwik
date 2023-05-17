@@ -13,6 +13,7 @@ export default component$(() => {
   // const { pokemonId, changePokemonId } = useNavigation()
 
   const pokeGameContext = useContext(PokemonGameContext)
+
   const nav = useNavigate()
 
   const toogleTurn = $(() => {
