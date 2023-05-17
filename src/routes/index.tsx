@@ -1,32 +1,35 @@
-import { component$, useSignal, $ } from '@builder.io/qwik';
-import { DocumentHead, Link, useNavigate } from '@builder.io/qwik-city';
+import { component$, useSignal, $, useContext } from '@builder.io/qwik';
+import { DocumentHead, Link, useContent, useNavigate } from '@builder.io/qwik-city';
 import { NavigationCounter } from '~/components/pokemons/navigation-counter';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { useNavigation } from '~/components/pokemons/useNavigation';
+import { PokemonGameContext } from '~/context';
 import { PokeType } from '~/utils/get-poke-image';
 
 
 export default component$(() => {
-  const isPokemonVisible = useSignal<boolean>(false);
-  const pokeType = useSignal<PokeType>(PokeType.default);
-  const { pokemonId, changePokemonId } = useNavigation()
+  // const isPokemonVisible = useSignal<boolean>(false);
+  // const pokeType = useSignal<PokeType>(PokeType.default);
+  // const { pokemonId, changePokemonId } = useNavigation()
+
+  const pokeGameContext = useContext(PokemonGameContext)
   const nav = useNavigate()
 
   const toogleTurn = $(() => {
-    pokeType.value === PokeType.default ? pokeType.value = PokeType.backShiny : pokeType.value = PokeType.default
+    pokeGameContext.pokeType === PokeType.default ? pokeGameContext.pokeType = PokeType.backShiny : pokeGameContext.pokeType = PokeType.default
   })
 
   const goToPokemon = $(async () => {
-    await nav(`/pokemon/${pokemonId.value}`)
+    await nav(`/pokemon/${pokeGameContext.pokemonId}`)
   })
 
 
   return (
     <>
       <div class="cursor-pointer" onClick$={goToPokemon}>
-        <PokemonImage id={pokemonId.value} pokeType={pokeType.value} show={isPokemonVisible.value} />
+        <PokemonImage id={pokeGameContext.pokemonId} pokeType={pokeGameContext.pokeType} show={pokeGameContext.isPokemonVisible} />
       </div>
-      <NavigationCounter onChange={changePokemonId} />
+      <NavigationCounter onChange={$((number: number) => { pokeGameContext.pokemonId += number; console.log(` fun:::: ${pokeGameContext.pokemonId} `) })} />
       <button
         id="turnButton"
         onClick$={toogleTurn}
@@ -37,7 +40,7 @@ export default component$(() => {
 
       <button
         id="turnButton"
-        onClick$={() => { isPokemonVisible.value = !isPokemonVisible.value }}
+        onClick$={() => { pokeGameContext.isPokemonVisible = !pokeGameContext.isPokemonVisible }}
         class="btn btn-primary mt-2"
       >
         isPokemonVisible

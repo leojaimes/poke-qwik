@@ -18,6 +18,7 @@ export const PokemonImage = component$(
     })
 
     const imageUrl = useComputed$(() => {
+
       return PokeImageUrl({ id, pokeType: pokeType })
     })
 
@@ -29,7 +30,7 @@ export const PokemonImage = component$(
         {!imageLoaded && <span>Loading...</span>}
 
         <img
-          src={imageUrl.value}
+          src={PokeImageUrl({ id, pokeType: pokeType })}
           alt="mew"
           height={size}
           width={size}
