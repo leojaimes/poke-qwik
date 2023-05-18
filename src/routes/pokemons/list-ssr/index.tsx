@@ -22,12 +22,17 @@ const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }
         offset: offset,
     }
 })
+
+
 export default component$(() => {
     const { value: { offset, res } } = usePokemonList()
     const location = useLocation()
     const showModal = useSignal(false)
     const clickedId = useSignal<string | number | undefined>(undefined)
 
+
+    const showPokeModal = $((id: number | string | undefined) => { showModal.value = true; clickedId.value = id })
+    const closePokeModal = $(() => { showModal.value = false })
     const currentoffset = useComputed$(() => {
         const offsetString = new URLSearchParams(location.url.search)
         return Number(offsetString.get('offset') || 0)
@@ -47,7 +52,7 @@ export default component$(() => {
                 {
                     res.results.map(({ name, imageUrl, id }, index) => (
                         <>
-                            <div onClick$={$(() => { showModal.value = true; clickedId.value = id })} key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
+                            <div onClick$={() => showPokeModal(id)} key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
                                 <PokemonImage id={id!} pokeType={PokeType.shiny} show size={100} />
                                 <span class="capitalize">{name}</span>
                             </div>
@@ -56,7 +61,7 @@ export default component$(() => {
                     ))
                 }
             </div>
-            <Modal visible={showModal.value && !!clickedId.value} close={$(() => { showModal.value = false })} >
+            <Modal visible={showModal.value && !!clickedId.value} close={closePokeModal} >
                 <div q:slot='title'>Pokemon Name</div>
                 <div class="flex flex-col justify-center items-center" q:slot='content'>
                     {clickedId.value && <PokemonImage id={clickedId.value!} show />}
