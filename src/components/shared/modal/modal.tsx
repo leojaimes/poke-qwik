@@ -9,11 +9,11 @@ export const Modal = component$(({ visible, close }: Props) => {
     useStylesScoped$(ModalStyles);
 
     const handleClickParent = $((event: QwikMouseEvent<HTMLDivElement, MouseEvent>, element: HTMLDivElement) => {
-        const target = event.target as HTMLElement;
-        const modalContent = element.querySelector('.modal-content');
-        if (!modalContent || modalContent.contains(target)) {
-            return;
-        }
+        // const target = event.target as HTMLElement;
+        // const modalContent = element.querySelector('.modal-content');
+        // if (!modalContent || modalContent.contains(target)) {
+        //     return;
+        // }
         close()
     });
 
@@ -23,7 +23,7 @@ export const Modal = component$(({ visible, close }: Props) => {
 
 
     return (
-        <div class={visible ? 'modal-background' : 'hidden'} onClick$={handleClickParent} >
+        <div preventdefault:click class={visible ? 'modal-background' : 'hidden'} onClick$={handleClickParent} >
             <div class="modal-content">
                 <div class="mt-3 text-center">
                     <h3 class="modal-title"><Slot name='title' /></h3>
