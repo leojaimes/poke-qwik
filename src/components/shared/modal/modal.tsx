@@ -17,11 +17,6 @@ export const Modal = component$(({ visible, close }: Props) => {
         close()
     });
 
-
-
-
-
-
     return (
         <div preventdefault:click class={visible ? 'modal-background' : 'hidden'} onClick$={handleClickParent} >
             <div class="modal-content">
