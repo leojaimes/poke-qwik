@@ -1,4 +1,4 @@
-import { component$, useComputed$, useSignal } from '@builder.io/qwik';
+import { component$, useComputed$, useSignal, $ } from '@builder.io/qwik';
 
 import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { getPokemoms } from '~/services/pokemonApi';
@@ -25,6 +25,9 @@ const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }
 export default component$(() => {
     const { value: { offset, res } } = usePokemonList()
     const location = useLocation()
+    const showModal = useSignal(false)
+    const clickedId = useSignal<string | number | undefined>(undefined)
+
     const currentoffset = useComputed$(() => {
         const offsetString = new URLSearchParams(location.url.search)
         return Number(offsetString.get('offset') || 0)
@@ -33,7 +36,7 @@ export default component$(() => {
         <>
             <div class="flex flex-col ">
                 <span class="my-5 text-5xl">Status</span>
-                <span class="my-5 text-5xl">Current offset: {currentoffset}</span>
+                <span class="my-5 text-5xl">Current offset: {currentoffset.value}</span>
                 {/* <span class="my-5 text-5xl">{location.isNavigating ? 'Loading...' : ''}</span> */}
             </div>
             <div class="mt-10">
@@ -44,7 +47,7 @@ export default component$(() => {
                 {
                     res.results.map(({ name, imageUrl, id }, index) => (
                         <>
-                            <div key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
+                            <div onClick$={$(() => { showModal.value = true; clickedId.value = id })} key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
                                 <PokemonImage id={id!} pokeType={PokeType.shiny} show size={100} />
                                 <span class="capitalize">{name}</span>
                             </div>
@@ -53,10 +56,10 @@ export default component$(() => {
                     ))
                 }
             </div>
-            <Modal >
+            <Modal visible={showModal.value && !!clickedId.value} close={$(() => { showModal.value = false })} >
                 <div q:slot='title'>Pokemon Name</div>
                 <div class="flex flex-col justify-center items-center" q:slot='content'>
-                    <PokemonImage id={1} show />
+                    {clickedId.value && <PokemonImage id={clickedId.value!} show />}
                     <span>Asking ChatGPT</span>
                 </div>
             </Modal>
