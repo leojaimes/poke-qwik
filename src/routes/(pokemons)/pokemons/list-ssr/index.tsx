@@ -2,13 +2,13 @@ import { component$, useComputed$, useSignal, $, useStore, useVisibleTask$ } fro
 
 import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { getPokemoms } from '~/services/pokemonApi';
-import { getFinalNumberFromUrl } from '../../../utils/get-number-from-url';
 import { PokeImageUrl, PokeType } from '~/utils/get-poke-image';
-import { PokemonImage } from '../../../components/pokemons/pokemon-image';
+
 import { Modal } from '~/components/shared';
 import { ShortPokemonData } from '~/interfaces/pokemons';
-import { Pokemon } from '../../../interfaces/pokemon';
+
 import { textGeneration } from '~/services/openAi';
+import { PokemonImage } from '~/components/pokemons/pokemon-image';
 
 const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }) => {
     const offset = Number(query.get('offset') || '0')

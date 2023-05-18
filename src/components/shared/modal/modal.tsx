@@ -9,11 +9,11 @@ export const Modal = component$(({ visible, close }: Props) => {
     useStylesScoped$(ModalStyles);
 
     const handleClickParent = $((event: QwikMouseEvent<HTMLDivElement, MouseEvent>, element: HTMLDivElement) => {
-        // const target = event.target as HTMLElement;
-        // const modalContent = element.querySelector('.modal-content');
-        // if (!modalContent || modalContent.contains(target)) {
-        //     return;
-        // }
+        const target = event.target as HTMLElement;
+        const modalContent = element.querySelector('.modal-content');
+        if (!modalContent || modalContent.contains(target)) {
+            return;
+        }
         close()
     });
 
