@@ -26,6 +26,16 @@ export const Navbar = component$(() => {
             <Link href='/counter'>Counter </Link>
           </li>
 
+          <li>
+            <Link href='/login'>Login</Link>
+          </li>
+
+          <li>
+            <Link href='/dashboard'>Admin Dasboard </Link>
+          </li>
+
+
+
         </ul>
       </div>
     </header>
