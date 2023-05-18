@@ -1,4 +1,4 @@
-import { component$, useComputed$, useSignal, $, useStore } from '@builder.io/qwik';
+import { component$, useComputed$, useSignal, $, useStore, useVisibleTask$ } from '@builder.io/qwik';
 
 import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { getPokemoms } from '~/services/pokemonApi';
@@ -8,6 +8,7 @@ import { PokemonImage } from '../../../components/pokemons/pokemon-image';
 import { Modal } from '~/components/shared';
 import { ShortPokemonData } from '~/interfaces/pokemons';
 import { Pokemon } from '../../../interfaces/pokemon';
+import { textGeneration } from '~/services/openAi';
 
 const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }) => {
     const offset = Number(query.get('offset') || '0')
@@ -33,7 +34,23 @@ export default component$(() => {
     const pokemonClicked = useSignal<ShortPokemonData | undefined>(undefined)
 
 
-    const showPokeModal = $((pokemon: ShortPokemonData | undefined) => { showModal.value = true; pokemonClicked.value = pokemon })
+    const showPokeModal = $(async (pokemon: ShortPokemonData) => {
+        showModal.value = true;
+        pokemonClicked.value = pokemon
+        const res = await textGeneration(`Write something interesting about ${pokemonClicked.value!.name!}`)
+        pokemon.description = res.response
+
+    })
+    // useVisibleTask$(({ track }) => {
+    //     track(() => pokemonClicked)
+    //     if (pokemonClicked.value) {
+    //         textGeneration(`write something interesting about ${pokemonClicked.value!.name!}`).then((res) => {
+    //             console.log(res.response)
+    //         })
+
+    //     }
+
+    // })
     const closePokeModal = $(() => { showModal.value = false })
     const currentoffset = useComputed$(() => {
         const offsetString = new URLSearchParams(location.url.search)
