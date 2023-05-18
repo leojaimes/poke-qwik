@@ -32,25 +32,24 @@ export default component$(() => {
     const location = useLocation()
     const showModal = useSignal(false)
     const pokemonClicked = useSignal<ShortPokemonData | undefined>(undefined)
-
+    const chatGptRes = useSignal('')
 
     const showPokeModal = $(async (pokemon: ShortPokemonData) => {
         showModal.value = true;
         pokemonClicked.value = pokemon
-        const res = await textGeneration(`Write something interesting about ${pokemonClicked.value!.name!}`)
-        pokemon.description = res.response
+        chatGptRes.value = ''
+        // const res = await textGeneration(`Write something interesting about ${pokemonClicked.value!.name!}`)
+        // pokemon.description = res.response
 
     })
-    // useVisibleTask$(({ track }) => {
-    //     track(() => pokemonClicked)
-    //     if (pokemonClicked.value) {
-    //         textGeneration(`write something interesting about ${pokemonClicked.value!.name!}`).then((res) => {
-    //             console.log(res.response)
-    //         })
+    useVisibleTask$(async ({ track }) => {
+        track(() => pokemonClicked.value)
+        if (pokemonClicked.value) {
+            const res = await textGeneration(`write something interesting about ${pokemonClicked.value!.name!}`)
+            chatGptRes.value = res.response
+        }
 
-    //     }
-
-    // })
+    })
     const closePokeModal = $(() => { showModal.value = false })
     const currentoffset = useComputed$(() => {
         const offsetString = new URLSearchParams(location.url.search)
@@ -84,7 +83,7 @@ export default component$(() => {
                 <div q:slot='title'>{pokemonClicked.value?.name}</div>
                 <div class="flex flex-col justify-center items-center" q:slot='content'>
                     {pokemonClicked.value && pokemonClicked.value!.id && <PokemonImage id={pokemonClicked.value!.id!} show />}
-                    <span>Asking ChatGPT</span>
+                    <span>{chatGptRes.value}</span>
                 </div>
             </Modal>
         </>

@@ -9,7 +9,7 @@ const openai = new OpenAIApi(configuration);
 
 
 export const textGeneration = async (prompt: string) => {
-    console.log(`opeAIKey ${opeAIKey}`)
+    delete configuration.baseOptions.headers['User-Agent']
     try {
         const response = await openai.createCompletion({
             model: 'text-davinci-003',
@@ -23,7 +23,7 @@ export const textGeneration = async (prompt: string) => {
 
 
         });
-        console.log(`${response.data.choices[0].text}`)
+        console.log(response.data)
         return {
             status: 1,
             response: `${response.data.choices[0].text}`
