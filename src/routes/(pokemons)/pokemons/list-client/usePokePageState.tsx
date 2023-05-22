@@ -1,6 +1,5 @@
-import { component$, useComputed$, useStore, $, useVisibleTask$ } from '@builder.io/qwik';
-import { useLocation } from '@builder.io/qwik-city';
-import { ShortPokemonData } from '~/interfaces/pokemons';
+import { useStore, $, useVisibleTask$ } from '@builder.io/qwik';
+import type { ShortPokemonData } from '~/interfaces/pokemons';
 import { getPokemoms } from '~/services/pokemonApi';
 
 
@@ -18,7 +17,7 @@ export function usePokemonPageState(initialPokeState: PokemonPageState) {
         offset: initialOffset,
     });
 
-    useVisibleTask$(async ({ cleanup, track }) => {
+    useVisibleTask$(async ({ track }) => {
         console.log('hola mundo')
         track(() => pokemonState.offset)
         const res = await getPokemoms({

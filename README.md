@@ -36,6 +36,5 @@ npm run qwik add
 
 # Creating build for production
 
-1- yarn build
-2- yarn run build.server
-3- yarn serve
+1- yarn build.all
+2- yarn serve

@@ -1,10 +1,11 @@
+import type {
+    QwikFocusEvent
+} from '@builder.io/qwik';
 import {
     component$,
     useStore,
     useStylesScoped$,
     $,
-    QwikSubmitEvent,
-    QwikFocusEvent,
     useSignal,
     useComputed$,
 } from '@builder.io/qwik';
@@ -26,6 +27,7 @@ export default component$(() => {
     })
 
     const isValidPassword = $((password: string) => {
+        console.log(password)
         return true;
     })
 
@@ -44,7 +46,7 @@ export default component$(() => {
         return isEmailValid && isPasswordValid
     })
     const onSubmit = $(async () => {
-        const { email, password } = formState;
+        //const { email, password } = formState;
         console.log('form invalid ' + isFormValid.value)
         if (!isFormValid.value) {
             console.log('form invalid')

@@ -1,13 +1,13 @@
-import { component$, useComputed$, useSignal, useStore, $, useVisibleTask$, useTask$, useOnDocument, useContext } from '@builder.io/qwik';
-import { DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
+import { component$, $, useTask$, useOnDocument, useContext } from '@builder.io/qwik';
+import type { DocumentHead } from '@builder.io/qwik-city';
+import { routeLoader$ } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
-import { ShortPokemonData } from '~/interfaces/pokemons';
 import { getPokemoms } from '~/services/pokemonApi';
 import { PokeType } from '~/utils/get-poke-image';
-import { usePokemonPageState } from './usePokePageState';
-import { PokemonListContext, PokemonListPageState } from '~/context';
+import type { PokemonListPageState } from '~/context';
+import { PokemonListContext } from '~/context';
 
-const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }) => {
+export const usePokemonList = routeLoader$(async ({ query, redirect, pathname }) => {
     const offset = Number(query.get('offset') || '0')
     if (offset < 0 || isNaN(offset)) {
         redirect(301, pathname)
@@ -48,7 +48,7 @@ export default component$(() => {
 
     // })
 
-    useTask$(async ({ cleanup, track }) => {
+    useTask$(async ({ track }) => {
         console.log('useTask')
         track(() => pokemonsPageState.offset)
 
@@ -61,7 +61,7 @@ export default component$(() => {
     })
 
 
-    useOnDocument('scroll', $((e) => {
+    useOnDocument('scroll', $(() => {
         //console.log('body scrolled', e);
         const maxScroll = document.body.scrollHeight;
         const currentScroll = window.scrollY + window.innerHeight
@@ -88,7 +88,7 @@ export default component$(() => {
             </div>
             <div class="grid sm:grid-cols-2 md:grid-cols-5 xl:grid-cols-7 mt-5">
                 {
-                    pokemonsPageState.pokemons.map(({ name, imageUrl, id }, index) => (
+                    pokemonsPageState.pokemons.map(({ name, id }, index) => (
 
                         <div key={`${name} - ${index}`} class="m-5 flex flex-col justify-center items-center">
                             <PokemonImage id={id!} pokeType={PokeType.shiny} show size={100} />

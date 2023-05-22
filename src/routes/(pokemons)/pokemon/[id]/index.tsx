@@ -1,10 +1,8 @@
-import { component$, useContext } from '@builder.io/qwik';
+import { component$, } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
-import { RedirectMessage } from '@builder.io/qwik-city/middleware/request-handler';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
-import { PokemonGameContext } from '~/context/pokemon/pokemon-game.context';
 import { usePokemonGame } from '~/hooks/pokemon/usePokemonGame';
-import { Pokemon } from '~/interfaces/pokemon';
+import type { Pokemon } from '~/interfaces/pokemon';
 import { getPokemoById } from '~/services/pokemonApi';
 
 interface PokemonIdReturn {
@@ -36,7 +34,7 @@ export default component$(() => {
     //console.log({ loc: loc.params.id })
     const { value: { pokemon, id } = {} } = usePokemonId();
     //const pokeGameContext = useContext(PokemonGameContext)
-    const { pokemonId, pokeType, isPokemonVisible, toogleTurn, toogleVisible } = usePokemonGame()
+    const { pokeType, isPokemonVisible, toogleTurn, toogleVisible } = usePokemonGame()
 
     if (!id || !pokemon) {
         return (<h1>Not Found</h1>)

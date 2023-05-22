@@ -1,4 +1,5 @@
-import { Slot, component$, useStylesScoped$, $, QRL, QwikMouseEvent } from '@builder.io/qwik';
+import type { QRL, QwikMouseEvent } from '@builder.io/qwik';
+import { Slot, component$, useStylesScoped$, $ } from '@builder.io/qwik';
 import ModalStyles from './modal.css?inline';
 
 interface Props {

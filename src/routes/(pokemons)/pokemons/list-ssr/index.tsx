@@ -1,16 +1,16 @@
-import { component$, useComputed$, useSignal, $, useStore, useVisibleTask$ } from '@builder.io/qwik';
+import { component$, useComputed$, useSignal, $, useVisibleTask$ } from '@builder.io/qwik';
 
 import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { getPokemoms } from '~/services/pokemonApi';
-import { PokeImageUrl, PokeType } from '~/utils/get-poke-image';
+import { PokeType } from '~/utils/get-poke-image';
 
 import { Modal } from '~/components/shared';
-import { ShortPokemonData } from '~/interfaces/pokemons';
+import type { ShortPokemonData } from '~/interfaces/pokemons';
 
 import { textGeneration } from '~/services/openAi';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 
-const usePokemonList = routeLoader$(async ({ params, query, redirect, pathname }) => {
+export const usePokemonList = routeLoader$(async ({ query, redirect, pathname }) => {
     const offset = Number(query.get('offset') || '0')
     if (offset < 0 || isNaN(offset)) {
         redirect(301, pathname)

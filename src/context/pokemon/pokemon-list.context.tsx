@@ -1,5 +1,5 @@
 import { createContextId } from "@builder.io/qwik";
-import { ShortPokemonData } from "~/interfaces/pokemons";
+import { type ShortPokemonData } from "~/interfaces/pokemons";
 
 
 export interface PokemonListPageState {
