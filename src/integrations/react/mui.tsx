@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { qwikify$ } from '@builder.io/qwik-react';
-import { Button, Slider } from '@mui/material';
+import { Box, Button, Slider } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
@@ -44,18 +44,16 @@ export const TableApp = qwikify$(() => {
 
   return (
     <>
-      <h1>Hello from React</h1>
-
-      <div style={{ height: 400, width: '100%' }}>
+      <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+
+
           checkboxSelection
-          disableSelectionOnClick
+
         />
-      </div>
+      </Box>
     </>
   );
 });
